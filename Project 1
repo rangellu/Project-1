@@ -1,1 +1,464 @@
+"""
+Author: Rangel Eauri Lu
+Date: 3-7-26/3-15-26
+FileName: The game of Blackjack
+Purpose: Expression of creativity and for entertainment
+"""
+
+"""
+Notes to professor:
+
+-I might've used some list
+ > append & insert
+
+"""
+
+import math
+import random
+import time
+
+# Start UI
+print("♠️"*10," Welcome To Blackjack","♠️"*10)
+startInput = input("\nPress Enter to start: ")
+
+# Rules
+print("\nPlayers receive all cards face up")
+time.sleep(3)
+print("\nand the dealer's first card is face up and the second is face down.")
+time.sleep(3)
+print("\nThe object of the game is to get closer to 21 than the dealer without going over 21.")
+time.sleep(3)
+print("\nIf a hand goes over 21, it is called a “bust” or “break,” and the wager is lost.\n")
+time.sleep(3)
+
+# Variables
+playerMoney = int(10)
+playerBet = int()
+
+playerCardsValue = []
+playerCards = []
+playerTotalCards = 0
+
+dealerCardsValue = []
+dealerCards = []
+dealerTotalCards = 0
+
+
+variable2 = 0
+variable3 = 0
+
+
+# Game Functions
+
+if startInput == "":
+    
+    while True:
+    
+        playOrExitInput = input("Do You want to Play or Exit? ")
+
+        if playOrExitInput == "Play":
+
+            while True:
+
+                if dealerCardsValue == [] and playerCardsValue == []:
+            
+                    # Bet System Line(61-67 & 149-150)
+
+                    print("Your total money: $",playerMoney)
+                    bet = int(input("\nPlace your bet: $"))
+
+                    if bet <= playerMoney :
+                        
+                        playerMoney -= bet
+                        playerBet += bet
+                        
+
+                        #Player Draw Cards
+
+                        playerTotalCards += 1
+                        playerCardRandomNum = random.randint(1,13)
+                        playerCardRandomSuits = random.randint(1,4)
+                
+                        playerCardsValue.append(playerCardRandomNum)
+                        playerCardsValue.append(playerCardRandomSuits)
+
+
+                        # Dealer Draw Cards 
+
+                        for i in range(0,2):
+                            dealerTotalCards += 1
+                            dealerCardRandomNum = random.randint(1,13)
+                            dealerCardRandomSuits = random.randint(1,4)
+
+                            dealerCardsValue.append(dealerCardRandomNum)
+                            dealerCardsValue.append(dealerCardRandomSuits)
+
+                            if i == 0:
+                                value1 = i
+                                value2 = i + 1
+                            elif i == 1:
+                                value1 = i + 1
+                                value2 = i + 2
+
+
+                            # Dealer Cards UI
+                            if dealerCardsValue[value1] == 11:
+                                dealerCards.append("J")
+                            elif dealerCardsValue[value1] == 12:
+                                dealerCards.append("Q")
+                            elif dealerCardsValue[value1] == 13:
+                                dealerCards.append("K")
+                            elif dealerCardsValue[value1] == 1:
+                                dealerCards.append("A")
+                            else :
+                                dealerCards.append(dealerCardRandomNum)
+
+                            if dealerCardsValue[value2] == 1 :
+                                dealerCards.append("♣️")
+                            elif dealerCardsValue[value2] == 2 : 
+                                dealerCards.append("♠️")
+                            elif dealerCardsValue[value2] == 3 : 
+                                dealerCards.append("♥️")
+                            elif dealerCardsValue[value2] == 4:
+                                dealerCards.append("♦️")
+
+                        # Player Cards UI
+
+                        if playerCardsValue[playerTotalCards - 1] == 11:
+                            playerCards.insert(playerTotalCards - 1, "J")
+                        elif playerCardsValue[playerTotalCards - 1] == 12:
+                            playerCards.insert(playerTotalCards - 1, "Q")
+                        elif playerCardsValue[playerTotalCards - 1] == 13:
+                            playerCards.insert(playerTotalCards - 1, "K")
+                        elif playerCardsValue[playerTotalCards - 1] == 1:
+                            playerCards.insert(playerTotalCards - 1, "A")
+                        else:
+                            playerCards.insert(playerTotalCards - 1, playerCardRandomNum)
+
+                        if playerCardsValue[1] == 1 :
+                            playerCards.insert(1, "♣️")
+                        elif playerCardsValue[1] == 2 : 
+                            playerCards.insert(1, "♠️")
+                        elif playerCardsValue[1] == 3 : 
+                            playerCards.insert(1, "♥️")
+                        elif playerCardsValue[1] == 4:
+                            playerCards.insert(1, "♦️")
+                
+                    
+
+                        # Player's Hand UI
+                        print("\nYour card(s)")
+                        print(playerCards[1] , " ", playerCards[0] , playerCards[1])
+
+
+                        # Dealer's Hand UI
+                        print("Dealer's card(s)", 
+                           dealerCards[1] , " ", dealerCards[0] , dealerCards[1],
+                           ", ?\n" )
+                
+
+
+                    elif bet > playerMoney : 
+                        print("\n(Your money is not enough)")
+                        break
+            
+
+                elif dealerCardsValue != [] and playerCardsValue != [] :
+            
+                    hitOrStandInput = input("Hit or Stand? ")
+
+                    if hitOrStandInput == "Hit":
+
+                        
+                        playerTotalValue = int()
+
+
+                        #Player Draw Cards
+
+                        playerCardRandomNum = random.randint(1,13)
+                        playerCardRandomSuits = random.randint(1,4)
+                
+                        playerCardsValue.append(playerCardRandomNum)
+                        playerCardsValue.append(playerCardRandomSuits) 
+                        playerTotalCards +=1
+
+
+                        # Function to look for the card to change from number to Symbols
+
+                        for cards in range(0, playerTotalCards + 1):
+                            if cards == playerTotalCards:
+                                variable2 = cards * 2
+                        
+
+                                # Player Cards UI
+
+                                if playerCardsValue[variable2 - 2] == 11:
+                                    playerCards.insert(variable2 - 2, "J")
+                                elif playerCardsValue[variable2 - 2] == 12:
+                                    playerCards.insert(variable2 - 2, "Q")
+                                elif playerCardsValue[variable2 - 2] == 13:
+                                    playerCards.insert(variable2 - 2, "K")
+                                elif playerCardsValue[variable2 - 2] == 1:
+                                    playerCards.insert(variable2 - 2, "A")
+                                else:
+                                    playerCards.insert(variable2 - 2, playerCardRandomNum)
+
+                                if playerCardsValue[variable2 - 1] == 1 :
+                                    playerCards.insert(variable2 - 1, "♣️")
+                                elif playerCardsValue[variable2 - 1] == 2 : 
+                                    playerCards.insert(variable2 - 1, "♠️")
+                                elif playerCardsValue[variable2 - 1] == 3 : 
+                                    playerCards.insert(variable2 - 1, "♥️")
+                                elif playerCardsValue[variable2 - 1] == 4:
+                                    playerCards.insert(variable2 - 1, "♦️")
+
+
+                        # Player's Hand UI
+                        print("\nYour card(s)")
+                        for Ui in range(0, playerTotalCards):
+                            variable3 = Ui * 2
+                            print(playerCards[variable3 - 1], " " , playerCards[variable3 - 2], playerCards[variable3 - 1]) 
+                            playerTotalValue += playerCardsValue[variable3 - 2]
+
+                        # Dealer's Hand UI
+                        print("Dealer's card(s)", dealerCards[1] , " ", dealerCards[0] , dealerCards[1],", ?" )
+
+
+                        # Game Functions if player goes over 21 or below
+  
+                        if playerTotalValue > 21 and playerMoney > 0:
+                            print("You Lost :(")
+                            print("Your Total $",playerMoney)
+
+                            playerCards = []
+                            playerCardsValue = []
+                            playerTotalCards = 0
+                            playerBet = 0
+                    
+                            dealerCardsValue = []
+                            dealerCards = []
+                            dealerTotalCards = 0
+
+                            break
+
+
+                        elif playerTotalValue > 21 and playerMoney <= 0:
+                            print("You lost and you now poor :P")
+                            print("Your Total $", playerMoney)
+
+                            playerCards = []
+                            playerCardsValue = []
+                            playerTotalCards = 0
+                            playerBet = 0
+                    
+                            dealerCardsValue = []
+                            dealerCards = []
+                            dealerTotalCards = 0
+
+                            break
+
+                        elif playerTotalValue == 21:
+                            print("You Win")
+                            if bet == 1 :
+                                playerMoney += 2
+                            else:
+                                playerMoney += bet * 2
+                            print("Your Total $", playerMoney)
+
+                            playerCards = []
+                            playerCardsValue = []
+                            playerTotalCards = 0
+                            playerBet = 0
+                    
+                            dealerCardsValue = []
+                            dealerCards = []
+                            dealerTotalCards = 0
+
+                            break
+
+                
+                    elif hitOrStandInput == "Stand":
+                        
+                        dealerTotalValue = int()
+
+                        # Player's Hand UI
+                        print("\nYour card(s)")
+                        for Ui in range(0, playerTotalCards):
+                            variable3 = Ui * 2
+                            print(playerCards[variable3 - 1], " " , playerCards[variable3 - 2], playerCards[variable3 - 1]) 
+
+                        # Dealer's Hand UI
+                        print("\nDealer's card(s)")
+                        for Ui in range(0, dealerTotalCards):
+                            time.sleep(3)
+                            variable3 = Ui * 2
+                            print(dealerCards[variable3 - 1], " " , dealerCards[variable3 - 2], dealerCards[variable3 - 1]) 
+                            dealerTotalValue += dealerCardsValue[variable3 - 2]
+
+                        if dealerTotalValue <= 16 :
+                            
+                            while True :
+                                
+                                if dealerTotalValue <= 16 :
+                                    dealerTotalValue = 0
+
+                                    # Dealer Draw Cards
+                        
+                                    dealerCardRandomNum = random.randint(1,13)
+                                    dealerCardRandomSuits = random.randint(1,4)
+                
+                                    dealerCardsValue.append(dealerCardRandomNum)
+                                    dealerCardsValue.append(dealerCardRandomSuits) 
+                                    dealerTotalCards +=1
+
+
+                                    # Function to look for the card to change from number to Symbols
+
+                                    for cards in range(0, dealerTotalCards + 1):
+                                        if cards == dealerTotalCards:
+                                            variable2 = cards * 2
+                        
+
+                                            # dealer Cards UI
+
+                                            if dealerCardsValue[variable2 - 2] == 11:
+                                                dealerCards.insert(variable2 - 2, "J")
+                                            elif dealerCardsValue[variable2 - 2] == 12:
+                                                dealerCards.insert(variable2 - 2, "Q")
+                                            elif dealerCardsValue[variable2 - 2] == 13:
+                                                dealerCards.insert(variable2 - 2, "K")
+                                            elif dealerCardsValue[variable2 - 2] == 1:
+                                                dealerCards.insert(variable2 - 2, "A")
+                                            else:
+                                                dealerCards.insert(variable2 - 2, dealerCardRandomNum)
+
+                                            if dealerCardsValue[variable2 - 1] == 1 :
+                                                dealerCards.insert(variable2 - 1, "♣️")
+                                            elif dealerCardsValue[variable2 - 1] == 2 : 
+                                                dealerCards.insert(variable2 - 1, "♠️")
+                                            elif dealerCardsValue[variable2 - 1] == 3 : 
+                                                dealerCards.insert(variable2 - 1, "♥️")
+                                            elif dealerCardsValue[variable2 - 1] == 4:
+                                                dealerCards.insert(variable2 - 1, "♦️") 
+                                    print("\n...Dealer Drawing Cards...")
+                                
+                                    time.sleep(3)
+                                    print("\nDealer's card(s)")
+                                    for Ui in range(0, dealerTotalCards):
+                                        time.sleep(2)
+                                        variable3 = Ui * 2
+                                        print(dealerCards[variable3 - 1], " " , dealerCards[variable3 - 2], dealerCards[variable3 - 1]) 
+                                        dealerTotalValue += dealerCardsValue[variable3 - 2]
+                                elif dealerTotalValue > 17 :
+                                    break
+                                        
+                                else: 
+                                    # Dealer's Hand UI
+                                    print("\nDealer's card(s)")
+                                    for Ui in range(0, dealerTotalCards):
+                                        variable3 = Ui * 2
+                                        print(dealerCards[variable3 - 1], " " , dealerCards[variable3 - 2], dealerCards[variable3 - 1]) 
+                                    break
+
+
+                        # Game Function if dealer goes over 21 or below
+
+                        if playerTotalValue > dealerTotalValue and playerTotalValue <= 21 :
+                            print("You Win")
+                            if bet == 1 :
+                                playerMoney += 2
+                            else:
+                                playerMoney += bet * 2
+                            print("Your Total $", playerMoney)
+
+                            playerCards = []
+                            playerCardsValue = []
+                            playerTotalCards = 0
+                            playerBet = 0
+                
+                            dealerCardsValue = []
+                            dealerCards = []
+                            dealerTotalCards = 0
+
+                            break
+
+                        elif dealerTotalValue > 21 :
+                            print("You Win")
+                            if bet == 1 :
+                                playerMoney += 2
+                            else:
+                                playerMoney += bet * 2
+                            print("Your Total $", playerMoney)
+
+                            playerCards = []
+                            playerCardsValue = []
+                            playerTotalCards = 0
+                            playerBet = 0
+                
+                            dealerCardsValue = []
+                            dealerCards = []
+                            dealerTotalCards = 0
+
+                            break
+
+                        elif dealerTotalValue > playerTotalValue and dealerTotalValue <= 21 :
+                            if playerMoney <= 0 :
+                                print("You lost and you now poor :P")
+                                print("Your Total $", playerMoney)
+
+                                playerCards = []
+                                playerCardsValue = []
+                                playerTotalCards = 0
+                                playerBet = 0
+                    
+                                dealerCardsValue = []
+                                dealerCards = []
+                                dealerTotalCards = 0
+
+                                break
+                            elif playerMoney > 0 :
+                                print("You Lost :(")
+                                print("Your Total $",playerMoney)
+
+                                playerCards = []
+                                playerCardsValue = []
+                                playerTotalCards = 0
+                                playerBet = 0
+                    
+                                dealerCardsValue = []
+                                dealerCards = []
+                                dealerTotalCards = 0
+
+                                break
+
+                        elif playerTotalValue == dealerTotalValue and dealerTotalValue >= 17 and dealerTotalValue <= 21:
+                            print("|Draw|")
+                            print("You will get your bet back")
+                            playerMoney += playerBet
+                            print("Your Total $", playerMoney)
+
+                            playerCards = []
+                            playerCardsValue = []
+                            playerTotalCards = 0
+                            playerBet = 0
+                    
+                            dealerCardsValue = []
+                            dealerCards = []
+                            dealerTotalCards = 0
+
+                            break
+                            
+
+                    elif hitOrStandInput != "Stand" or "Hit" :
+                        print()
+
+        elif playOrExitInput == "Exit":
+                print("\nYour Total Money is: $", playerMoney, "!!\n")
+                break
+
+        else:
+            print("I Think you typed the wrong one")
+
+elif startInput != "" : 
+    print("\nSee You Again!\n")
 
